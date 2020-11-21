@@ -21,28 +21,32 @@ define Package/$(PKG_NAME)
   TITLE:=LingTi Game Accelerator
   URL:=https://github.com/esirplayground/LingTiGameAcc	
   DEPENDS:=+kmod-tun
+  PKGARCH:=all
 endef
 
 DIR_ARCH:=$(ARCH)
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)/$(PKG_NAME)
-	cp -r ./files/$(DIR_ARCH)/* $(PKG_BUILD_DIR)/$(PKG_NAME)
+	cp -r ./files/* $(PKG_BUILD_DIR)/$(PKG_NAME)
 endef
 
 define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/bin/lingti
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME)/* $(1)/usr/bin/lingti
+	$(INSTALL_DIR) $(1)/tmp/lingti
+	$(CP) $(PKG_BUILD_DIR)/$(PKG_NAME)/* $(1)/tmp/lingti
 
 
 endef
 
-define Package/coremark/postinst
+define Package/$(PKG_NAME)/postinst
 #!/bin/sh
-chmod +x $(1)/usr/bin/lingti/*
+mkdir -p ./usr/bin/lingti
+cp -a ./tmp/lingti/$(ARCH)/* ./usr/bin/lingti
+rm -rf ./tmp/lingti
+chmod +x ./usr/bin/lingti/*
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
