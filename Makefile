@@ -24,7 +24,7 @@ define Package/$(PKG_NAME)
   PKGARCH:=all
 endef
 
-DIR_ARCH:=$(ARCH)
+#DIR_ARCH:=$(ARCH)
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)/$(PKG_NAME)
@@ -44,7 +44,8 @@ endef
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 mkdir -p ./usr/bin/lingti
-cp -a ./tmp/lingti/$(DIR_ARCH)/* ./usr/bin/lingti
+chmod +x $(1)/tmp/lingti/lingti.sh
+sh $(1)/tmp/lingti/lingti.sh
 rm -rf ./tmp/lingti
 chmod +x ./usr/bin/lingti/*
 endef
