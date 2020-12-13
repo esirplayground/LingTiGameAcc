@@ -44,8 +44,8 @@ endef
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 mkdir -p ./usr/bin/lingti
-chmod +x $(1)/tmp/lingti/lingti.sh
-sh $(1)/tmp/lingti/lingti.sh
+chmod +x ./tmp/lingti/lingti.sh
+sh ./tmp/lingti/lingti.sh
 rm -rf ./tmp/lingti
 chmod +x ./usr/bin/lingti/*
 endef
